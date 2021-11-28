@@ -13,7 +13,7 @@ labels:
         body: issue 템플릿에 맞춰 작성해줘!
         action: close
       pr:
-        body: @{{ pull_request.user.login }} !!! pr 템플릿에 맞춰 작성해줘!
+        body: pr 템플릿에 맞춰 작성해줘!
         action: close
     unlabeled:
       issue:
