@@ -19,6 +19,11 @@ labels:
       issue:
         body: Thank you for following the template. The repository owner will reply.
         action: open
+  - name: bug
+    labeled:
+      issue:
+        body: 🚨💢버그발생!💢 💢버그발생!💢🚨
+        action: open
   - name: forum
     labeled:
       issue:
