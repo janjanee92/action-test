@@ -1,0 +1,32 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Every 5 Minuite Issue Creation
+on:
+  schedule:
+    - cron: */5 * * * *
+
+jobs:
+  create_issue:
+    name: Create team sync issue
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Create team sync issue
+        uses: imjohnbo/issue-bot@3daae12aa54d38685d7ff8459fc8a2aee8cea98b
+        with:
+          assignees: "janjanee92"
+          labels: "weekly sync"
+          title: "Team sync"
+          body: |
+            ### Agenda
+
+            - [ ] 일하기
+            - [ ] 밥먹기
+            - [ ] 눕기
+            - [ ] 공부하기
+          pinned: false
+          close-previous: false
