@@ -6,7 +6,7 @@
 name: Every 5 Minuite Issue Creation
 on:
   schedule:
-    - cron: */5 * * * *
+    - cron: 49 * * * *
 
 jobs:
   create_issue:
