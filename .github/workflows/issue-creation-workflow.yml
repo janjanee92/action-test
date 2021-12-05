@@ -6,7 +6,7 @@
 name: Issue Creation
 on:
   schedule:
-    - cron: 55 * * * *
+    - cron: '*/5 * * * *'
 
 jobs:
   create_issue:
