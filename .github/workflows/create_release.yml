@@ -1,0 +1,20 @@
+name: Create Draft Release
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [closed]
+
+jobs:
+  create_release:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && startsWith(github.event.pull_request.head.ref, 'release/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Extract tag from branch name
+        id: extract_tag
+        run: echo "TAG=${{ github.event.pull_request.head.ref#refs/heads/release/ }}" >> $GITHUB_ENV
+
