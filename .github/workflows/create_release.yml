@@ -1,24 +1,30 @@
-name: github action tag release 
-
+name: Bump version
 on:
-  push:
+  pull_request:
+    types:
+      - closed
     branches:
-      - main
+      - master
 
 jobs:
-  setup-build-deploy:
-    name: Setup, Build, and Deploy
-    runs-on: ubuntu-latest
+  build:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-22.04
     permissions:
       contents: write
-
+    
     steps:
-    - name: Create Tag
-      id: tag
-      uses: anothrNick/github-tag-action@1.70.0
+    - uses: actions/checkout@v4
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        release_branches: "release.*"
+        ref: ${{ github.event.pull_request.merge_commit_sha }}
+        fetch-depth: '0'
+
+    - name: Bump version and push tag
+      uses: anothrNick/github-tag-action@1.70.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        WITH_V: true
+        PRERELEASE: true
   
     - name: Create a GitHub release uplus
       uses: ncipollo/release-action@v1 
