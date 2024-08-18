@@ -15,15 +15,16 @@ jobs:
     
     steps:
     - uses: actions/checkout@v4
-      with:
-        ref: ${{ github.event.pull_request.merge_commit_sha }}
-        fetch-depth: '0'
+
+    - name: Extract version from tag
+      id: extract_version
+      run: echo "::set-output name=version::${GITHUB_REF#refs/heads/release/}"
 
     - name: Bump version and push tag
       uses: anothrNick/github-tag-action@1.70.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        WITH_V: true
+        CUSTOM_TAG: ${{ steps.extract_version.outputs.version }}
   
     - name: Create a GitHub release uplus
       uses: ncipollo/release-action@v1 
