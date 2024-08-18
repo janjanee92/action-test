@@ -15,27 +15,38 @@ jobs:
     
     steps:
     - uses: actions/checkout@v4
+    - name: Extract version from base_ref
+      run: |
+        BASE_REF=${{ github.base_ref }}
+        VERSION=$(echo "${BASE_REF}" | sed 's|release/||')
+        echo "Version: $VERSION"
 
-    - name: Extract version from tag
-      id: extract_version
-      run: echo "::set-output name=version::${GITHUB_REF#refs/heads/release/}"
+    - name: Extract version from head_ref
+      run: |
+        HEAD_REF=${{ github.head_ref }}
+        VERSION=$(echo "${HEAD_REF}" | sed 's|release/||')
+        echo "Version: $VERSION"
 
-    - name: Bump version and push tag
-      uses: anothrNick/github-tag-action@1.70.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        CUSTOM_TAG: ${{ steps.extract_version.outputs.version }}
+    # - name: Extract version from tag
+    #   id: extract_version
+    #   run: echo "::set-output name=version::${GITHUB_REF#refs/heads/release/}"
+
+    # - name: Bump version and push tag
+    #   uses: anothrNick/github-tag-action@1.70.0
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #     CUSTOM_TAG: ${{ steps.extract_version.outputs.version }}
   
-    - name: Create a GitHub release uplus
-      uses: ncipollo/release-action@v1 
-      with:
-        tag: ${{ steps.tag_version.outputs.new_tag }}-uplus
-        name: ${{ steps.tag_version.outputs.new_tag }}-uplus
-        generateReleaseNotes: true
+    # - name: Create a GitHub release uplus
+    #   uses: ncipollo/release-action@v1 
+    #   with:
+    #     tag: ${{ steps.tag_version.outputs.new_tag }}-uplus
+    #     name: ${{ steps.tag_version.outputs.new_tag }}-uplus
+    #     generateReleaseNotes: true
     
-    - name: Create a GitHub release torder
-      uses: ncipollo/release-action@v1 
-      with:
-        tag: ${{ steps.tag_version.outputs.new_tag }}-torder
-        name: ${{ steps.tag_version.outputs.new_tag }}-torder
-        generateReleaseNotes: true
+    # - name: Create a GitHub release torder
+    #   uses: ncipollo/release-action@v1 
+    #   with:
+    #     tag: ${{ steps.tag_version.outputs.new_tag }}-torder
+    #     name: ${{ steps.tag_version.outputs.new_tag }}-torder
+    #     generateReleaseNotes: true
